@@ -1,0 +1,31 @@
+from tkinter import *
+import requests , json 
+root=Tk()
+root.geometry("300x300")
+root.title("Currency Converter")
+e=Entry(root,width=25,borderwidth=5)#Entry 
+e.grid(row=0,column=2)#grid
+var1=StringVar()
+var1.set("INR")
+var2=StringVar()
+var2.set("INR")
+my1=Label(root,text="From").grid(row=0,column=0)
+my2=Label(root,text="to").grid(row=2,column=0)
+#over 160 countrys 
+country=['INR', 'AED', 'AFN', 'ALL', 'AMD', 'ANG', 'AOA', 'ARS', 'AUD', 'AWG', 'AZN', 'BAM', 'BBD', 'BDT', 'BGN', 'BHD', 'BIF', 'BMD', 'BND', 'BOB', 'BRL', 'BSD', 'BTN', 'BWP', 'BYN', 'BZD', 'CAD', 'CDF', 'CHF', 'CLP', 'CNY', 'COP', 'CRC', 'CUC', 'CUP', 'CVE', 'CZK', 'DJF', 'DKK', 'DOP', 'DZD', 'EGP', 'ERN', 'ETB', 'EUR', 'FJD', 'FKP', 'FOK', 'GBP', 'GEL', 'GGP', 'GHS', 'GIP', 'GMD', 'GNF', 'GTQ', 'GYD', 'HKD', 'HNL', 'HRK', 'HTG', 'HUF', 'IDR', 'ILS', 'IMP', 'IQD', 'IRR', 'ISK', 'JMD', 'JOD', 'JPY', 'KES', 'KGS', 'KHR', 'KID', 'KMF', 'KRW', 'KWD', 'KYD', 'KZT', 'LAK', 'LBP', 'LKR', 'LRD', 'LSL', 'LYD', 'MAD', 'MDL', 'MGA', 'MKD', 'MMK', 'MNT', 'MOP', 'MRU', 'MUR', 'MVR', 'MWK', 'MXN', 'MYR', 'MZN', 'NAD', 'NGN', 'NIO', 'NOK', 'NPR', 'NZD', 'OMR', 'PAB', 'PEN', 'PGK', 'PHP', 'PKR', 'PLN', 'PYG', 'QAR', 'RON', 'RSD', 'RUB', 'RWF', 'SAR', 'SBD', 'SCR', 'SDG', 'SEK', 'SGD', 'SHP', 'SLL', 'SOS', 'SRD', 'SSP', 'STN', 'SYP', 'SZL', 'THB', 'TJS', 'TMT', 'TND', 'TOP', 'TRY', 'TTD', 'TVD', 'TWD', 'TZS', 'UAH', 'UGX', 'USD', 'UYU', 'UZS', 'VES', 'VND', 'VUV', 'WST', 'XAF', 'XCD', 'XDR', 'XOF', 'XPF', 'YER', 'ZAR', 'ZMW']
+
+m=OptionMenu(root,var1,*country).grid(row=0,column=1)#OptionMenu
+m=OptionMenu(root,var2,*country).grid(row=2,column=1)
+
+string='https://v6.exchangerate-api.com/v6/460da041baa51c0cd29a17eb/latest/'
+
+#print(choice)
+myButton=Button(root,text="Convert",command=lambda: cal(e.get(),string)).grid(row=3,column=0,columnspan=3)
+def cal(num,string):
+    m=Label(root,text=" ").grid(row=2,column=2)
+    x=requests.get(string+var1.get())
+    data=dict(x.json())
+    ex_rate=data['conversion_rates'][var2.get()]
+    c=ex_rate*float(num)
+    my=Label(root,text=c).grid(row=2,column=2)
+root.mainloop()
